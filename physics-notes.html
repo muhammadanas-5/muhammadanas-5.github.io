@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From the First Sky-Watchers to General Relativity — Muhammad Anas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,300;9..144,0,400;9..144,0,500;9..144,1,300;9..144,1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+/* ── tokens ── */
+:root {
+  --bg:        #fafaf8;
+  --bg-alt:    #f2f1ed;
+  --panel:     #ffffff;
+  --ink:       #1c1c1a;
+  --ink-2:     #3d3d38;
+  --ink-3:     #7a7a72;
+  --ink-4:     #b0afa6;
+  --orange:    #e8631a;
+  --orange-2:  #f28144;
+  --orange-pale: #fff4ee;
+  --rule:      #e4e2da;
+  --rule-2:    #d0cec4;
+  --margin-w:  160px;
+  --col-w:     680px;
+  --ff-display: "Fraunces", Georgia, serif;
+  --ff-body:    "Newsreader", Georgia, serif;
+  --ff-mono:    "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* ── reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--ff-body);
+  font-size: 18px;
+  line-height: 1.72;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── layout spine ── */
+.page {
+  max-width: calc(var(--margin-w) + var(--col-w) + 48px);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── cover ── */
+.cover {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 100px 0 80px;
+  position: relative;
+  border-bottom: 1px solid var(--rule);
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 0%, rgba(232,99,26,0.09), transparent 65%),
+    var(--bg);
+  overflow: hidden;
+}
+/* notebook lines behind cover */
+.cover::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent calc(1.72em - 1px),
+    rgba(0,0,0,0.045) calc(1.72em - 1px),
+    rgba(0,0,0,0.045) 1.72em
+  );
+  background-size: 100% 1.72em;
+  background-position: 0 1.2em;
+  pointer-events: none;
+  mask-image: radial-gradient(70% 80% at 30% 50%, black 30%, transparent 80%);
+}
+.cover-inner { position: relative; z-index: 2; }
+
+.cover-label {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 36px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.cover-label::before {
+  content: "";
+  width: 30px; height: 1px;
+  background: var(--orange-2);
+  display: block;
+}
+
+.cover h1 {
+  font-family: var(--ff-display);
+  font-weight: 300;
+  font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 14px;
+  max-width: 16em;
+}
+.cover h1 em {
+  font-style: italic;
+  color: var(--orange);
+  font-weight: 400;
+}
+
+.cover-sub {
+  font-family: var(--ff-body);
+  font-size: 1.05rem;
+  color: var(--ink-3);
+  margin-bottom: 48px;
+  max-width: 36em;
+  font-style: italic;
+}
+
+.cover-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: var(--ff-mono);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: var(--ink-4);
+  border-top: 1px solid var(--rule);
+  padding-top: 24px;
+  max-width: 36em;
+}
+.cover-meta strong { color: var(--ink-3); font-weight: 500; }
+
+/* toc */
+.toc {
+  padding: 72px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.toc-grid {
+  display: grid;
+  grid-template-columns: var(--margin-w) 1fr;
+  gap: 0 40px;
+}
+.toc-label {
+  font-family: var(--ff-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--orange);
+  padding-top: 4px;
+}
+.toc-body { }
+.toc h2 {
+  font-family: var(--ff-display);
+  font-weight: 400;
+  font-size: 1.6rem;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin-bottom: 28px;
+}
+.toc-parts { list-style: none; }
+.toc-parts > li {
+  padding: 14px 0;
+  border-top: 1px solid var(--rule);
+}
+.toc-parts > li:last-child { border-bottom: 1px solid var(--rule); }
+.part-name {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 6px;
+}
+.part-chapters {
+  font-family: var(--ff-body);
+  font-size: 0.92rem;
+  color: var(--ink-3);
+  line-height: 1.55;
+}
+
+/* ── body layout: margin + column ── */
+.body-row {
+  display: grid;
+  grid-template-columns: var(--margin-w) 1fr;
+  gap: 0 40px;
+  position: relative;
+}
+
+/* vertical orange rule on left of text column */
+.body-row::before {
+  content: "";
+  position: absolute;
+  left: var(--margin-w);
+  top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--orange-2) 0%, rgba(232,99,26,0.15) 100%);
+  pointer-events: none;
+}
+
+.margin-col {
+  padding-top: 6px;
+  text-align: right;
+  padding-right: 28px;
+  position: relative;
+}
+.chapter-num {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--orange);
+  line-height: 1;
+}
+.margin-note {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  color: var(--ink-4);
+  line-height: 1.4;
+  margin-top: 8px;
+  letter-spacing: 0.02em;
+}
+
+.text-col { padding: 0 0 72px 28px; }
+
+/* ── part header ── */
+.part-header {
+  padding: 80px 0 0;
+  border-top: 1px solid var(--rule);
+  margin-top: 32px;
+}
+.part-header:first-of-type { border-top: none; margin-top: 0; }
+
+.part-eyebrow {
+  font-family: var(--ff-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 16px;
+}
+.part-title {
+  font-family: var(--ff-display);
+  font-weight: 300;
+  font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--rule);
+  max-width: 22em;
+}
+.part-title em { font-style: italic; color: var(--orange); }
+
+/* ── chapter heading ── */
+.ch-heading {
+  font-family: var(--ff-display);
+  font-weight: 400;
+  font-size: clamp(1.25rem, 2.5vw, 1.7rem);
+  line-height: 1.14;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin-bottom: 20px;
+  margin-top: 48px;
+}
+.ch-heading:first-child { margin-top: 0; }
+
+/* ── section heading ── */
+.sec-heading {
+  font-family: var(--ff-display);
+  font-weight: 500;
+  font-size: 1.1rem;
+  letter-spacing: -0.01em;
+  color: var(--ink-2);
+  margin: 32px 0 10px;
+}
+
+/* ── body text ── */
+.text-col p {
+  color: var(--ink-2);
+  margin-bottom: 18px;
+  font-size: 0.97rem;
+}
+.text-col p:last-child { margin-bottom: 0; }
+.text-col em { color: var(--orange); font-style: normal; font-weight: 500; }
+.text-col strong { color: var(--ink); font-weight: 600; }
+
+/* ── derivation box ── */
+.deriv {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--orange);
+  border-radius: 10px;
+  padding: 26px 28px;
+  margin: 28px 0;
+  box-shadow: 0 2px 18px rgba(0,0,0,0.05), 0 0 0 1px rgba(232,99,26,0.04);
+  position: relative;
+}
+.deriv::before {
+  content: "Derivation";
+  font-family: var(--ff-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--orange);
+  display: block;
+  margin-bottom: 14px;
+}
+.deriv p {
+  font-size: 0.93rem !important;
+  color: var(--ink-3) !important;
+  margin-bottom: 14px !important;
+}
+.deriv p:last-child { margin-bottom: 0 !important; }
+.deriv strong { color: var(--ink-2) !important; }
+mjx-container { color: var(--ink); }
+
+/* ── bullet list ── */
+.text-col ul {
+  margin: 12px 0 18px 0;
+  padding: 0;
+  list-style: none;
+}
+.text-col ul li {
+  padding-left: 20px;
+  position: relative;
+  color: var(--ink-2);
+  font-size: 0.95rem;
+  margin-bottom: 7px;
+  line-height: 1.6;
+}
+.text-col ul li::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+  color: var(--orange);
+  font-family: var(--ff-mono);
+}
+
+/* ── inline formula highlight ── */
+.eq-display {
+  margin: 20px 0;
+  padding: 14px 20px;
+  background: var(--bg-alt);
+  border-radius: 6px;
+  text-align: center;
+  overflow-x: auto;
+}
+
+/* ── divider ── */
+.divider {
+  width: 40px;
+  height: 1px;
+  background: var(--orange-2);
+  margin: 40px 0;
+}
+
+/* ── appendix note ── */
+.appendix-note {
+  background: var(--orange-pale);
+  border: 1px solid rgba(232,99,26,0.18);
+  border-radius: 8px;
+  padding: 20px 22px;
+  font-size: 0.88rem;
+  color: var(--ink-2);
+  line-height: 1.6;
+  margin: 24px 0;
+}
+.appendix-note strong { color: var(--ink); }
+
+/* ── timeline table ── */
+.timeline {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  margin: 20px 0;
+}
+.timeline th {
+  font-family: var(--ff-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--orange);
+  text-align: left;
+  padding: 8px 12px 8px 0;
+  border-bottom: 1px solid var(--rule-2);
+}
+.timeline td {
+  padding: 8px 12px 8px 0;
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink-2);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.timeline td:first-child {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  color: var(--orange);
+  white-space: nowrap;
+  padding-right: 20px;
+  min-width: 110px;
+}
+.timeline tr:last-child td { border-bottom: none; }
+
+/* ── sources ── */
+.sources-block {
+  border-top: 1px solid var(--rule);
+  padding-top: 28px;
+  margin-top: 40px;
+}
+.sources-block h3 {
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 16px;
+}
+.sources-block p {
+  font-size: 0.88rem !important;
+  color: var(--ink-3) !important;
+  line-height: 1.65 !important;
+}
+
+/* ── footer ── */
+.doc-footer {
+  border-top: 1px solid var(--rule);
+  padding: 40px 0 60px;
+  margin-top: 24px;
+}
+.footer-inner {
+  display: grid;
+  grid-template-columns: var(--margin-w) 1fr;
+  gap: 0 40px;
+}
+.footer-inner .margin-col { padding-top: 0; }
+.footer-sig {
+  font-family: var(--ff-display);
+  font-size: 1rem;
+  color: var(--ink-3);
+  font-style: italic;
+}
+.footer-detail {
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  color: var(--ink-4);
+  letter-spacing: 0.04em;
+  margin-top: 6px;
+}
+
+/* ── section separator ── */
+.section-sep {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 64px 0 0;
+}
+
+/* ── responsive ── */
+@media (max-width: 680px) {
+  :root { --margin-w: 0px; }
+  .body-row { grid-template-columns: 1fr; }
+  .body-row::before { display: none; }
+  .margin-col { display: none; }
+  .text-col { padding-left: 0; }
+  .toc-grid { grid-template-columns: 1fr; }
+  .toc-label { display: none; }
+  .footer-inner { grid-template-columns: 1fr; }
+  .cover h1 { font-size: 2rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ COVER ══════════════ -->
+<div class="page">
+  <div class="cover">
+    <div class="cover-inner">
+      <div class="cover-label">Condensed Lecture Notes · Physics</div>
+      <h1>From the First Sky-Watchers<br>to <em>General Relativity</em></h1>
+      <p class="cover-sub">The entire arc of physics from its ancient origins to Einstein's field equations of 1915, with derivations.</p>
+      <div class="cover-meta">
+        <span><strong>Muhammad Anas</strong> · Sargodha, Pakistan · 2026</span>
+        <span>39 pages · study notes, not original scholarship</span>
+        <span>Companion volume: <em>From Pythagoras to Riemann's Curvature</em></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ TOC ══════════════ -->
+  <div class="toc">
+    <div class="toc-grid">
+      <div class="toc-label">Contents</div>
+      <div class="toc-body">
+        <h2>What this covers</h2>
+        <ul class="toc-parts">
+          <li>
+            <div class="part-name">Part I — Antiquity &amp; the Long Middle Ages</div>
+            <div class="part-chapters">Babylon · Greek natural philosophy · Aristotle · Hellenistic exact science · Islamic golden age</div>
+          </li>
+          <li>
+            <div class="part-name">Part II — The Scientific Revolution (1543–1687)</div>
+            <div class="part-chapters">Copernicus · Tycho &amp; Kepler · Galileo · Descartes &amp; Huygens · Newton</div>
+          </li>
+          <li>
+            <div class="part-name">Part III — Classical Physics Matures (1687–1865)</div>
+            <div class="part-chapters">Analytical mechanics · Wave theory · Thermodynamics · Statistical mechanics · Maxwell</div>
+          </li>
+          <li>
+            <div class="part-name">Part IV — Crisis &amp; Relativity (1865–1919)</div>
+            <div class="part-chapters">Michelson–Morley · Lorentz &amp; Poincaré · Special relativity · Minkowski · General relativity · The classic tests</div>
+          </li>
+          <li>
+            <div class="part-name">Appendices</div>
+            <div class="part-chapters">Mathematical toolkit · Master timeline · Further reading &amp; primary sources</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════ PART I ══════════════ -->
+  <div class="part-header">
+    <div class="body-row">
+      <div class="margin-col"><span class="chapter-num">Part I</span></div>
+      <div class="text-col" style="padding-bottom:0">
+        <p class="part-eyebrow">Antiquity and the Long Middle Ages</p>
+        <h2 class="part-title">Before anyone asked <em>why</em> the planets move, scribes recorded <em>how</em> they move.</h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ch 1 -->
+  <div class="body-row">
+    <div class="margin-col">
+      <span class="chapter-num">Ch. 1</span>
+      <p class="margin-note">~750 BCE<br>Babylon &amp; Egypt</p>
+    </div>
+    <div class="text-col">
+      <h2 class="ch-heading">Before Theory: Babylon, Egypt, and the Birth of Exact Astronomy</h2>
+      <p>Physics did not begin with falling bodies; it began with the sky. The heavens offered the only natural phenomena that were simultaneously regular, quantifiable, and economically important. Long before anyone asked <em>why</em> the planets move, scribes recorded <em>how</em> they move.</p>
+      <h3 class="sec-heading">Mesopotamia</h3>
+      <p>From roughly the 8th century BCE, Babylonian temple scribes kept the Astronomical Diaries — nightly records sustained for some seven centuries, arguably the longest continuous scientific research program in history. Out of this data they built a sexagesimal (base-60) place-value arithmetic, predictive arithmetic schemes that modeled the varying speed of the Sun and Moon, and the Saros cycle (~18 years, 11⅓ days) extracted purely from records.</p>
+      <p>The crucial point: Babylonian astronomy was <strong>arithmetical and predictive, not geometrical or explanatory</strong>. There is no evidence they asked what the planets are or why they move. Physics required marrying this predictive ambition to a new Greek habit: explanation.</p>
+      <p>Egypt contributed practical geometry, a 365-day civil calendar, and timekeeping technology — but no theoretical astronomy comparable to Babylon's. What was missing everywhere: the idea that nature is governed by impersonal, universal, discoverable laws.</p>
+    </div>
+  </div>
+
+  <!-- Ch 2 -->
+  <div class="body-row">
+    <div class="margin-col">
+      <span class="chapter-num">Ch. 2</span>
+      <p class="margin-note">6th century BCE<br>Ionian naturalism</p>
+    </div>
+    <div class="text-col">
+      <h2 class="ch-heading">The Greek Invention of Natural Philosophy</h2>
+      <p>In the trading cities of Ionia, a handful of thinkers made the single most consequential move in the history of science: they proposed that the world can be explained <strong>naturalistically</strong> — by the properties of matter itself, without mythological actors.</p>
+      <p>Thales of Miletus (fl. ~585 BCE) proposed natural causes for earthquakes. Anaximander argued the earth floats unsupported at the center of the cosmos, held by symmetry — the first known argument from sufficient reason in cosmology. The Pythagorean school discovered that musical consonances correspond to simple whole-number ratios: the first known physical law expressed mathematically, seeding the conviction that mathematics is the language of nature.</p>
+      <p>Parmenides and Zeno produced the famous paradoxes of motion that forced two millennia of serious thought about continuity, infinity, and instantaneous velocity — issues only fully resolved by the calculus. The atomists (Leucippus, Democritus) answered: reality consists of unchanging atoms moving in the void; all apparent change is rearrangement.</p>
+    </div>
+  </div>
+
+  <!-- Ch 3 -->
+  <div class="body-row">
+    <div class="margin-col">
+      <span class="chapter-num">Ch. 3</span>
+      <p class="margin-note">384–322 BCE<br>Aristotle</p>
+    </div>
+    <div class="text-col">
+      <h2 class="ch-heading">Aristotle's Physics: The System That Had to Be Overthrown</h2>
+      <p>Aristotle built the most comprehensive, coherent, and empirically motivated physics of antiquity. It dominated for ~1,900 years — not because people were stupid, but because it explains everyday experience remarkably well. Understanding it is essential: Galileo and Newton are unintelligible except as its demolition.</p>
+      <p>His two-realm cosmos divided the sublunar realm (four elements, natural places, rectilinear motion) from the celestial realm (aether, eternal uniform circular motion). His theory of motion stated that speed of fall is proportional to weight and inversely proportional to the resistance of the medium — therefore a vacuum is impossible.</p>
+      <p>In a world of friction and air resistance, motion does die out unless maintained; feathers do fall slower than stones. Aristotle's physics is an excellent phenomenology of the terrestrial, dissipative world. Its fatal flaws: it is qualitative, teleological, and hard-wires a distinction between heaven and earth that forbids a universal mechanics.</p>
+    </div>
+  </div>
+
+  <!-- Ch 4 -->
+  <div class="body-row">
+    <div class="margin-col">
+      <span class="chapter-num">Ch. 4</span>
+      <p class="margin-note">~300 BCE–170 CE<br>Hellenistic science</p>
+    </div>
+    <div class="text-col">
+      <h2 class="ch-heading">Hellenistic Exact Science</h2>
+      <p>After Alexander, Greek science professionalized around the Museum and Library of Alexandria. Euclid's <em>Elements</em> codified geometry as a deductive system — the template of exact science. Archimedes founded both statics and hydrostatics as axiomatic mathematics, and developed proto-integration to compute curved areas and volumes.</p>
+      <div class="deriv">
+        <p><strong>Eratosthenes measures the Earth (~240 BCE).</strong> At summer solstice noon, the Sun is overhead at Syene (no shadow in a deep well) but casts a shadow at Alexandria corresponding to an angle \(\theta \approx 7.2° = 360°/50\) from the vertical. Since the Sun's rays are parallel, \(\theta\) equals the difference in latitude — the arc Syene–Alexandria is 1/50 of the full meridian circle. With the caravan-measured distance \(d \approx 5{,}000\) stadia: \[C = 50\,d \approx 250{,}000\ \text{stadia.}\] The entire measurement uses one theorem (alternate angles at parallel lines) and one assumption (a spherical Earth).</p>
+      </div>
+      <p>Aristarchus proposed a full heliocentric system 1,800 years before Copernicus. Hipparchus discovered the precession of the equinoxes and founded trigonometry. Ptolemy's <em>Almagest</em> synthesized everything into a predictive geocentric system that reigned for 1,400 years — a lesson that a theory can be predictively excellent and physically false.</p>
+    </div>
+  </div>
+
+  <!-- Ch 5 -->
+  <div class="body-row">
+    <div class="margin-col">
+      <span class="chapter-num">Ch. 5</span>
+      <p class="margin-note">8th–15th century<br>Islamic &amp; medieval</p>
+    </div>
+    <div class="text-col">
+      <h2 class="ch-heading">The Islamic Golden Age and the Medieval Latin West</h2>
+      <p>Ibn al-Haytham's <em>Book of Optics</em> (~1021) is a strong candidate for the first work of recognizably modern experimental physics: he settled that we see by light entering the eye, performed systematic experiments with the camera obscura, and explicitly demanded that hypotheses be tested by controlled, repeatable experiment.</p>
+      <p>The Merton College Oxford Calculators (1320s–40s) treated motion for the first time as a quantity subject to theorems, proving the <strong>mean-speed theorem</strong>: a uniformly accelerated body covers the same distance as one moving uniformly at the mean of initial and final speeds.</p>
+      <div class="deriv">
+        <p><strong>Mean-speed theorem (Oresme's picture).</strong> Plot velocity against time. Uniform acceleration from \(v_0\) to \(v_f\) is a straight ramp; the distance traveled is the area under it — a trapezoid of average height \((v_0+v_f)/2\) and base \(t\). Algebraically: \[s = \int_0^t (v_0 + at')\,dt' = v_0 t + \tfrac{1}{2}at^2 = \frac{v_0+v_f}{2}\,t.\] Oresme's insight that <em>distance = area under the velocity graph</em> is the geometric core of integral calculus, three centuries early.</p>
+      </div>
+      <p>Galileo's law of fall is the Merton theorem applied to nature. The theorem itself was proved 300 years earlier.</p>
+    </div>
+  </div>
+
+  <hr class="section-sep">
+
+  <!-- PART II -->
+  <div class="part-header">
+    <div class="body-row">
+      <div class="margin-col"><span class="chapter-num">Part II</span></div>
+      <div class="text-col" style="padding-bottom:0">
+        <p class="part-eyebrow">The Scientific Revolution (1543–1687)</p>
+        <h2 class="part-title">The decision that <em>theory must bend to data,</em> not data to theory — a hinge of scientific history.</h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ch 6 -->
+  <div class="body-row">
+    <div class="margin-col">
+      <span class="chapter-num">Ch. 6</span>
+      <p class="margin-note">1543<br>Copernicus</p>
+    </div>
+    <div class="text-col">
+      <h2 class="ch-heading">Copernicus and the Heliocentric Hypothesis</h2>
+      <p>Nicolaus Copernicus (1473–1543) published <em>De revolutionibus orbium coelestium</em> (1543). Placing the Sun near the center explains what Ptolemy merely fitted: retrograde motion becomes automatic at opposition; bounded elongation of Mercury and Venus is geometrically necessary; the order and scale of the system are fixed for the first time; planetary periods increase monotonically with distance.</p>
+      <p>What it did not do: Copernicus kept uniform circular motion and epicycles, and achieved accuracy only comparable to Ptolemy. The physical objections stood unanswered. The book converted few astronomers immediately; its indirect effects — via Kepler and Galileo — changed everything.</p>
+    </div>
+  </div>
+
+  <!-- Ch 7 -->
+  <div class="body-row">
+    <div class="margin-col">
+      <span class="chapter-num">Ch. 7</span>
+      <p class="margin-note">1609–1619<br>Kepler's laws</p>
+    </div>
+    <div class="text-col">
+      <h2 class="ch-heading">Tycho's Data and Kepler's Laws</h2>
+      <p>Tycho Brahe (1546–1601) pushed naked-eye positional accuracy to ~1–2 arcminutes, roughly ten times better than tradition. Two observations shattered celestial immutability: the new star of 1572 (a supernova) and the comet of 1577, both superlunary, the latter moving through the supposed crystalline spheres — which therefore do not exist.</p>
+      <p>Kepler's best circular model for Mars matched Tycho to within 8 arcminutes — and Kepler threw it away, because Tycho's data were good to 2. Out of the wreckage came his three laws:</p>
+      <ul>
+        <li><strong>First Law:</strong> each planet moves on an ellipse with the Sun at one focus. Two thousand years of circles end here.</li>
+        <li><strong>Second Law:</strong> the Sun–planet line sweeps equal areas in equal times (conservation of angular momentum).</li>
+        <li><strong>Third Law:</strong> \(T^2/a^3 = \text{const}\) — the fingerprint of an inverse-square force.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Ch 8 -->
+  <div class="body-row">
+    <div class="margin-col">
+      <span class="chapter-num">Ch. 8</span>
+      <p class="margin-note">1564–1642<br>Galileo</p>
+    </div>
+    <div class="text-col">
+      <h2 class="ch-heading">Galileo: Kinematics, the Telescope, and Relativity</h2>
+      <p>Galileo argued by thought-experiment that all bodies fall alike, absent air resistance. The Merton theorem realized in nature: \(s \propto t^2\), \(v \propto t\).</p>
+      <div class="deriv">
+        <p><strong>The odd-number rule \(\Leftrightarrow\) \(s \propto t^2\).</strong> If \(s = \tfrac{1}{2}gt^2\), total distances after 1, 2, 3, 4,… equal time-units are proportional to 1, 4, 9, 16,…; distances in each successive unit are the differences 1, 3, 5, 7,… — the odd numbers. The mean-speed theorem then gives \(v_f = 2s/t = gt\), and eliminating \(t\): \(v^2 = 2gs\) — speed depends only on drop height.</p>
+        <p><strong>The parabola.</strong> Horizontal speed \(v\) (unchanged, by inertia), vertical fall by the law of fall: \[x = vt,\quad y = \tfrac{1}{2}gt^2 \implies y = \frac{g}{2v^2}\,x^2,\] a parabola. Two already-established laws, superposed at right angles, yield a new exact result.</p>
+      </div>
+      <p>The telescope (1609–10) revealed lunar mountains, Jupiter's moons, the phases of Venus (geometrically impossible in Ptolemy), and sunspots. The ship argument in the <em>Dialogue</em> (1632) established that no mechanical experiment can detect uniform motion — dissolving every Aristotelian objection to a moving Earth. "The book of nature is written in the language of mathematics."</p>
+    </div>
+  </div>
+
+  <!-- Ch 9–10 condensed -->
+  <div class="body-row">
+    <div class="margin-col">
+      <span class="chapter-num">Ch. 9–10</span>
+      <p class="margin-note">1644–1704<br>Descartes, Huygens, Newton</p>
+    </div>
+    <div class="text-col">
+      <h2 class="ch-heading">Descartes, Huygens, and Newton</h2>
+      <p>Descartes (1596–1650) stated the law of inertia cleanly, introduced analytic geometry (the indispensable language of all subsequent physics), and proposed vortex cosmology — wrong mechanism, but it made heliocentrism mechanically thinkable. Huygens (1629–1695) correctly solved elastic collisions with both momentum and vis viva conserved, quantified circular motion as \(a = v^2/r\), and built the pendulum clock.</p>
+      <div class="deriv">
+        <p><strong>Centripetal acceleration \(a = v^2/r\) (Huygens).</strong> A body on a circle would leave along the tangent. After time \(t\), the gap between tangent and circle: \((r+\delta)^2 = r^2 + (vt)^2\), so \(\delta \approx v^2t^2/2r\) — a gap growing as \(\tfrac{1}{2}(\text{const})t^2\), the signature of uniform acceleration: \[a = \frac{v^2}{r}.\] Corollary: inserting Kepler III (\(T^2 = kr^3\)) into \(a = 4\pi^2 r/T^2\) gives \(a \propto 1/r^2\) — the inverse-square hunch.</p>
+      </div>
+      <p>Newton's <em>Principia</em> (1687): three laws of motion; universal gravitation \(F = Gm_1m_2/r^2\); the Moon test confirming inverse-square at cosmic scale; Kepler's laws as theorems. Aristotle's two realms are dead: one mathematics, one law, heaven and earth united. Newton refuses to supply a mechanism: <em>"hypotheses non fingo."</em> That discomfort is cured only by general relativity, where gravity ceases to be a force at all.</p>
+      <div class="deriv">
+        <p><strong>The Moon test.</strong> The Moon's distance \(r \approx 60\,R_E\), period \(T = 27.32\text{ d}\). Its centripetal acceleration: \[a_\text{Moon} = \frac{4\pi^2 r}{T^2} \approx 2.7\times10^{-3}\ \text{m/s}^2 \approx \frac{g}{3600} = \frac{g}{60^2}.\] At 60 times the distance, \(60^2\) times weaker. One law, heaven and earth.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="section-sep">
+
+  <!-- PART III -->
+  <div class="part-header">
+    <div class="body-row">
+      <div class="margin-col"><span class="chapter-num">Part III</span></div>
+      <div class="text-col" style="padding-bottom:0">
+        <p class="part-eyebrow">Classical Physics Matures (1687–1865)</p>
+        <h2 class="part-title">Electricity + magnetism + optics: <em>the second great unification</em> after Newton.</h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ch 11 -->
+  <div class="body-row">
+    <div class="margin-col">
+      <span class="chapter-num">Ch. 11</span>
+      <p class="margin-note">1788–1835<br>Lagrange, Hamilton</p>
+    </div>
+    <div class="text-col">
+      <h2 class="ch-heading">Analytical Mechanics: Euler, Lagrange, Hamilton</h2>
+      <p>Lagrange's <em>Mécanique analytique</em> (1788) — a book famously containing "no figures" — reformulates mechanics as pure analysis. Define the Lagrangian \(\mathcal{L} = T - V\) in any generalized coordinates. The true motion makes the action stationary:</p>
+      <div class="deriv">
+        <p><strong>Euler–Lagrange from \(\delta S = 0\).</strong> Perturb the path: \(q(t) \to q(t) + \varepsilon\eta(t)\) with \(\eta\) vanishing at the endpoints. To first order in \(\varepsilon\): \[\delta S = \int_{t_1}^{t_2}\!\left(\frac{\partial\mathcal{L}}{\partial q} - \frac{d}{dt}\frac{\partial\mathcal{L}}{\partial\dot q}\right)\eta\,dt = 0.\] For this to vanish for every admissible \(\eta\), the bracket must vanish: the Euler–Lagrange equation. For \(\mathcal{L} = \tfrac{1}{2}m\dot x^2 - V(x)\) it reads \(m\ddot x = -V'(x)\): Newton recovered as the stationarity of a single scalar.</p>
+        <p><strong>Noether in one line.</strong> If \(\mathcal{L}\) does not depend on \(q_i\) (a cyclic coordinate), Euler–Lagrange reads \(\frac{d}{dt}\frac{\partial\mathcal{L}}{\partial\dot q_i}=0\), so \(p_i \equiv \frac{\partial\mathcal{L}}{\partial\dot q_i} = \text{const}\). Symmetry under translation \(\Rightarrow\) momentum conserved; under rotation \(\Rightarrow\) angular momentum; under time translation \(\Rightarrow\) energy.</p>
+      </div>
+      <p>Hamilton (1834–35) recast mechanics with momenta \(p_i = \partial\mathcal{L}/\partial\dot q_i\) and the Hamiltonian \(H(q,p)\): first-order flow in phase space. This formalism becomes the substrate of statistical mechanics and, later, quantum theory.</p>
+    </div>
+  </div>
+
+  <!-- Ch 13 -->
+  <div class="body-row">
+    <div class="margin-col">
+      <span class="chapter-num">Ch. 13–14</span>
+      <p class="margin-note">1824–1877<br>Thermodynamics</p>
+    </div>
+    <div class="text-col">
+      <h2 class="ch-heading">Heat, Engines, and Statistical Mechanics</h2>
+      <p>Carnot (1824) found the maximum efficiency of any heat engine between two temperatures: \[\eta_\text{max} = 1 - \frac{T_C}{T_H}.\] Mayer, Joule, and Helmholtz (1842–47) established the equivalence of heat and work; caloric died. Clausius (1854–65) distilled the Second Law into entropy \(S\), with \(\Delta S_\text{universe} \geq 0\). Irreversibility — time's arrow — enters physics as law.</p>
+      <p>Maxwell (1860) introduced probability into fundamental physics with the speed distribution \(f(v)\,dv \propto v^2 e^{-mv^2/2k_BT}\,dv\). Boltzmann completed the program: \(S = k_B \ln W\) — entropy measures the number of microstates compatible with a macrostate. The Second Law is not an absolute mechanical law but overwhelming probability.</p>
+    </div>
+  </div>
+
+  <!-- Ch 16 -->
+  <div class="body-row">
+    <div class="margin-col">
+      <span class="chapter-num">Ch. 16</span>
+      <p class="margin-note">1831–1879<br>Faraday, Maxwell</p>
+    </div>
+    <div class="text-col">
+      <h2 class="ch-heading">Faraday's Fields and Maxwell's Synthesis</h2>
+      <p>Faraday (1791–1867) introduced the field concept: action propagates through the field, not instantaneously at a distance. His 1845 Faraday effect — a magnetic field rotates light's polarization — was the first hard evidence light and electromagnetism are linked.</p>
+      <p>Maxwell (1831–1879) translated Faraday's geometry into dynamics. The decisive stroke: consistency with charge conservation forces a displacement current \(\varepsilon_0\,\partial\mathbf{E}/\partial t\), so a changing electric field generates a magnetic field. The complete Maxwell equations in vacuum produce a wave equation with speed:</p>
+      <div class="deriv">
+        <p><strong>Why the displacement current is forced.</strong> Take the divergence of the pre-Maxwell Ampère law \(\nabla\times\mathbf{B} = \mu_0\mathbf{J}\). The left side is identically zero, so it demands \(\nabla\cdot\mathbf{J}=0\) always — but charge conservation says \(\nabla\cdot\mathbf{J} = -\partial\rho/\partial t\), nonzero whenever charge piles up. Adding Maxwell's term: \[\nabla\cdot\!\left(\mu_0\mathbf{J} + \mu_0\varepsilon_0\frac{\partial\mathbf{E}}{\partial t}\right) = \mu_0\!\left(\nabla\cdot\mathbf{J} + \frac{\partial\rho}{\partial t}\right) = 0.\] Consistency alone dictates the new physics.</p>
+        <p><strong>The wave equation.</strong> In vacuum, take the curl of Faraday's law and substitute Ampère–Maxwell: \[\nabla^2\mathbf{E} = \mu_0\varepsilon_0\,\frac{\partial^2\mathbf{E}}{\partial t^2},\] with propagation speed \(c = 1/\sqrt{\mu_0\varepsilon_0} \approx 3\times10^8\ \text{m/s}\) — the measured speed of light. Light's speed emerges from tabletop measurements of charges and currents: this coincidence is the discovery.</p>
+      </div>
+      <p>Maxwell, 1865: "Light itself is an electromagnetic disturbance in the form of waves." Optics annexed by electromagnetism: the second great unification after Newton's. Then Maxwell died at 48, in the year Einstein was born.</p>
+    </div>
+  </div>
+
+  <hr class="section-sep">
+
+  <!-- PART IV -->
+  <div class="part-header">
+    <div class="body-row">
+      <div class="margin-col"><span class="chapter-num">Part IV</span></div>
+      <div class="text-col" style="padding-bottom:0">
+        <p class="part-eyebrow">Crisis and Relativity (1865–1919)</p>
+        <h2 class="part-title">The happiest thought of my life: a freely falling observer <em>does not feel his own weight.</em></h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ch 17 -->
+  <div class="body-row">
+    <div class="margin-col">
+      <span class="chapter-num">Ch. 17</span>
+      <p class="margin-note">1887<br>Michelson–Morley</p>
+    </div>
+    <div class="text-col">
+      <h2 class="ch-heading">The Luminiferous Ether and the Michelson–Morley Experiment</h2>
+      <p>Maxwell's equations contain a fixed speed \(c\) — presumably the speed relative to the ether. Earth, orbiting at \(v \approx 30\ \text{km/s}\), should feel an "ether wind" of \(v/c \approx 10^{-4}\). Detecting it required second-order sensitivity: \((v/c)^2 \approx 10^{-8}\).</p>
+      <div class="deriv">
+        <p><strong>The expected fringe shift.</strong> Arm along the wind: \[t_\parallel = \frac{2Lc}{c^2-v^2} = \frac{2L}{c}\cdot\frac{1}{1-v^2/c^2}.\] Arm across: \[t_\perp = \frac{2L}{\sqrt{c^2-v^2}} = \frac{2L}{c}\cdot\frac{1}{\sqrt{1-v^2/c^2}}.\] Rotating 90° swaps the roles, doubling the effect; the fringe shift: \[\Delta N = \frac{2L}{\lambda}\cdot\frac{v^2}{c^2} \approx \frac{2(11\ \text{m})(10^{-8})}{5.5\times10^{-7}\ \text{m}} \approx 0.4\ \text{fringe},\] forty times the instrument's sensitivity. Observed: effectively <em>zero</em>.</p>
+      </div>
+      <p>Null. The Earth does not move through the ether — yet aberration says the ether is not dragged along with Earth either. Every mechanical picture of the ether now contradicts some experiment.</p>
+    </div>
+  </div>
+
+  <!-- Ch 19 -->
+  <div class="body-row">
+    <div class="margin-col">
+      <span class="chapter-num">Ch. 19</span>
+      <p class="margin-note">1905<br>Special relativity</p>
+    </div>
+    <div class="text-col">
+      <h2 class="ch-heading">Special Relativity (1905)</h2>
+      <p>Einstein (26 years old, Bern patent office). Starting point: not Michelson–Morley but an asymmetry of description — magnet-and-conductor induction gets two different classical explanations depending on which moves. Two postulates: (1) the laws of physics take the same form in all inertial frames; (2) light propagates at speed \(c\) independent of the source's motion, in every inertial frame.</p>
+      <div class="deriv">
+        <p><strong>Time dilation from a light clock.</strong> A clock ticks by bouncing light between mirrors separated by \(d\): rest-frame tick \(\Delta\tau = 2d/c\). Watched from a frame where the clock moves at \(v\), the light travels the hypotenuse of a triangle: \[\left(\frac{c\Delta t}{2}\right)^2 = d^2 + \left(\frac{v\Delta t}{2}\right)^2 \implies \Delta t = \frac{2d/c}{\sqrt{1-v^2/c^2}} = \gamma\,\Delta\tau.\] Nothing but Pythagoras and the second postulate.</p>
+        <p><strong>Velocity addition.</strong> Differentiate the Lorentz transformation: \[u' = \frac{u-v}{1-uv/c^2}.\] Check: \(u=c\) gives \(u'=c\). And for light in water (\(u=c/n\)) composed with water speed \(v\), to first order: \(u \approx c/n + v(1-1/n^2)\) — Fresnel's drag coefficient, with no ether at all.</p>
+      </div>
+      <p>\(E = mc^2\): mass and energy are interconvertible measures of the same thing. Dead: absolute simultaneity, absolute space and time, the mechanical ether. Alive: Maxwell's equations (already Lorentz-invariant); Newtonian mechanics as the \(v\ll c\) limit.</p>
+    </div>
+  </div>
+
+  <!-- Ch 21 -->
+  <div class="body-row">
+    <div class="margin-col">
+      <span class="chapter-num">Ch. 21</span>
+      <p class="margin-note">1907–1915<br>Road to GR</p>
+    </div>
+    <div class="text-col">
+      <h2 class="ch-heading">The Road to General Relativity (1907–1915)</h2>
+      <p>Writing a review of relativity in 1907, Einstein had "the happiest thought of my life": a freely falling observer does not feel his own weight. Because all bodies fall identically (Galileo, verified to \(10^{-8}\)–\(10^{-9}\) by Eötvös), gravity can be locally transformed away by free fall; conversely, a uniformly accelerated cabin is locally indistinguishable from one in a gravitational field. <strong>Gravity and inertia are the same thing.</strong></p>
+      <div class="deriv">
+        <p><strong>Gravitational redshift from the equivalence principle.</strong> Replace the gravitational field \(g\) by a rocket of height \(h\) accelerating at \(g\). A light pulse takes time \(t \approx h/c\) to reach the ceiling, during which the ceiling gains speed \(v = gh/c\). The Doppler redshift: \[\frac{\Delta\nu}{\nu} \approx -\frac{v}{c} = -\frac{gh}{c^2} = -\frac{\Delta\phi}{c^2}.\] By equivalence, the same shift occurs in a real gravitational field. Since frequency is a clock, lower clocks run slower: \(d\tau \approx (1+\phi/c^2)\,dt\). This is the Pound–Rebka effect and the GPS correction.</p>
+      </div>
+      <p>In November 1915, in four consecutive Thursday communications to the Prussian Academy, Einstein restored general covariance; computed Mercury's anomalous perihelion advance — <strong>43″ per century, exactly the unexplained residual since 1859</strong> — and on 25 November presented the final field equations. "For a few days, I was beside myself with joyous excitement."</p>
+    </div>
+  </div>
+
+  <!-- Ch 22 -->
+  <div class="body-row">
+    <div class="margin-col">
+      <span class="chapter-num">Ch. 22</span>
+      <p class="margin-note">November 1915<br>The equations</p>
+    </div>
+    <div class="text-col">
+      <h2 class="ch-heading">General Relativity: The Theory Itself</h2>
+      <p>Matter and energy curve spacetime; freely falling bodies follow the straightest possible paths — geodesics — of that curved spacetime; what we call gravity is this geometry. Wheeler's epigram: "Spacetime tells matter how to move; matter tells spacetime how to curve."</p>
+      <div class="deriv">
+        <p><strong>Why \(G_{\mu\nu}\) on the left.</strong> We need a tensor equation "curvature = source." The source is \(T_{\mu\nu}\): symmetric, 10 components, locally conserved (\(\nabla^\mu T_{\mu\nu}=0\)). The left side must therefore be (i) a symmetric 2-tensor built from \(g\) and at most its second derivatives, and (ii) identically divergence-free. The contracted Bianchi identities supply exactly one such object: \[\nabla^\mu\!\left(R_{\mu\nu} - \tfrac{1}{2}R\,g_{\mu\nu}\right) \equiv 0.\] This is the mathematical fact that selects the Einstein tensor. Fixing the constant by matching the Newtonian weak-field limit: \[\boxed{G_{\mu\nu} = \frac{8\pi G}{c^4}\,T_{\mu\nu}.}\]</p>
+        <p><strong>Schwarzschild's perihelion formula.</strong> From the geodesic equation, the Newtonian orbit equation in \(u=1/r\) gains one term: \[\frac{d^2u}{d\theta^2}+u = \frac{GM}{h^2}+\frac{3GM}{c^2}u^2.\] Treating the relativistic term perturbatively, the perihelion advances per orbit by \[\Delta\varphi = \frac{6\pi GM}{c^2 a(1-e^2)}.\] For Mercury (\(GM_\odot = 1.327\times10^{20}\ \text{m}^3/\text{s}^2\), \(a=5.79\times10^{10}\ \text{m}\), \(e=0.206\)): \(\Delta\varphi \approx 5.0\times10^{-7}\ \text{rad/orbit}\); at 415 orbits per century, \(\approx 43''\) — Le Verrier's orphaned residual, exactly.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ch 23 -->
+  <div class="body-row">
+    <div class="margin-col">
+      <span class="chapter-num">Ch. 23</span>
+      <p class="margin-note">1915–1929<br>Classic tests</p>
+    </div>
+    <div class="text-col">
+      <h2 class="ch-heading">The Classic Tests and Relativistic Cosmology</h2>
+      <ul>
+        <li><strong>Mercury's perihelion (1915):</strong> 43″/century, no free parameters. The failed planet Vulcan is exorcised.</li>
+        <li><strong>Light deflection (1919):</strong> The full theory predicts 1.75″ at the solar limb — twice the Newtonian value. Eddington's eclipse expeditions to Sobral and Príncipe confirmed Einstein. "Revolution in Science… Newtonian Ideas Overthrown" (<em>The Times</em>, 7 Nov 1919).</li>
+        <li><strong>Gravitational redshift (1960):</strong> Pound–Rebka confirmed \(gh/c^2 \approx 2.5\times10^{-15}\) over 22.5 m. Today, GPS satellite clocks must correct for both SR slowing (~−7 μs/day) and gravitational speeding (~+45 μs/day): relativity as daily engineering.</li>
+      </ul>
+      <p>Applying the field equations to the universe, Einstein (1917) found that matter-filled universes collapse or expand — a static cosmos resists. Friedmann (1922), Lemaître (1927), and Hubble (1929) established the expanding universe. The same equations of November 1915 contain, as special cases: the falling apple, Mercury's orbit, bent starlight, slowed clocks, black holes, gravitational waves, and the expanding universe.</p>
+    </div>
+  </div>
+
+  <hr class="section-sep">
+
+  <!-- Appendix A -->
+  <div class="body-row">
+    <div class="margin-col">
+      <span class="chapter-num">App. A</span>
+      <p class="margin-note">Mathematical toolkit</p>
+    </div>
+    <div class="text-col">
+      <h2 class="ch-heading">Minimal Mathematical Toolkit</h2>
+      <p>The metric \(g_{\mu\nu}\) gives infinitesimal distance: \(ds^2 = g_{\mu\nu}dx^\mu dx^\nu\) (Einstein's summation convention: repeated indices summed — his own labor-saving invention, 1916). The connection \(\Gamma^\mu_{\alpha\beta} = \tfrac{1}{2}g^{\mu\nu}(\partial_\alpha g_{\nu\beta}+\partial_\beta g_{\nu\alpha}-\partial_\nu g_{\alpha\beta})\) defines parallel transport and covariant differentiation \(\nabla_\mu\). Curvature = non-commutativity of transport: \([\nabla_\mu,\nabla_\nu]V^\rho = R^\rho{}_{\sigma\mu\nu}V^\sigma\). Contractions: \(R_{\mu\nu} = R^\alpha{}_{\mu\alpha\nu}\), \(R = g^{\mu\nu}R_{\mu\nu}\). Bianchi identity \(\Rightarrow\) \(\nabla^\mu(R_{\mu\nu}-\tfrac{1}{2}Rg_{\mu\nu})=0\) — which is why exactly this combination can equal the conserved \(T_{\mu\nu}\).</p>
+      <div class="appendix-note">
+        <strong>Orders of magnitude worth memorizing:</strong> \(c = 2.998\times10^8\ \text{m/s}\); \(G = 6.674\times10^{-11}\ \text{N m}^2/\text{kg}^2\); Earth orbital speed 30 km/s (\(v/c = 10^{-4}\)); solar Schwarzschild radius 2.95 km; solar light deflection 1.75″; Mercury anomaly 43″/century; GPS relativistic correction ~38 μs/day net.
+      </div>
+    </div>
+  </div>
+
+  <!-- Appendix B: Timeline -->
+  <div class="body-row">
+    <div class="margin-col">
+      <span class="chapter-num">App. B</span>
+      <p class="margin-note">Master timeline</p>
+    </div>
+    <div class="text-col">
+      <h2 class="ch-heading">Master Timeline (selected)</h2>
+      <table class="timeline">
+        <tr><th>Date</th><th>Event</th></tr>
+        <tr><td>~750 BCE</td><td>Babylonian astronomical diaries; predictive lunar/planetary schemes</td></tr>
+        <tr><td>~530 BCE</td><td>Pythagoreans: number and harmony</td></tr>
+        <tr><td>~350 BCE</td><td>Aristotle's Physics and On the Heavens</td></tr>
+        <tr><td>~250 BCE</td><td>Archimedes: lever, buoyancy; Eratosthenes measures Earth</td></tr>
+        <tr><td>~150 CE</td><td>Ptolemy, Almagest</td></tr>
+        <tr><td>~1021</td><td>Ibn al-Haytham, Book of Optics</td></tr>
+        <tr><td>~1350</td><td>Buridan's impetus; Oresme; Merton mean-speed theorem</td></tr>
+        <tr><td>1543</td><td>Copernicus, De revolutionibus</td></tr>
+        <tr><td>1609–1619</td><td>Kepler's three laws; Galileo's telescope</td></tr>
+        <tr><td>1687</td><td>Newton, Principia</td></tr>
+        <tr><td>1788</td><td>Lagrange, Mécanique analytique</td></tr>
+        <tr><td>1831</td><td>Faraday: electromagnetic induction</td></tr>
+        <tr><td>1859</td><td>Le Verrier: Mercury's 43″ anomaly</td></tr>
+        <tr><td>1861–65</td><td>Maxwell's electromagnetic theory of light</td></tr>
+        <tr><td>1887</td><td>Michelson–Morley null result</td></tr>
+        <tr><td>1905</td><td>Einstein: special relativity; \(E=mc^2\)</td></tr>
+        <tr><td>1908</td><td>Minkowski spacetime</td></tr>
+        <tr><td>Nov 1915</td><td>Einstein field equations; Mercury explained; deflection 1.75″</td></tr>
+        <tr><td>1916</td><td>Schwarzschild solution; gravitational waves (linearized)</td></tr>
+        <tr><td>1918</td><td>Noether's theorem</td></tr>
+        <tr><td>1919</td><td>Eddington eclipse expeditions confirm light bending</td></tr>
+        <tr><td>1922–29</td><td>Friedmann, Lemaître, Hubble: the expanding universe</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Appendix C -->
+  <div class="body-row">
+    <div class="margin-col">
+      <span class="chapter-num">App. C</span>
+      <p class="margin-note">Primary sources &amp; further reading</p>
+    </div>
+    <div class="text-col">
+      <h2 class="ch-heading">Further Reading and Primary Sources</h2>
+      <div class="sources-block">
+        <h3>Primary Sources</h3>
+        <p>Aristotle, <em>Physics; On the Heavens</em> (Oxford Revised Aristotle, ed. J. Barnes). · Archimedes, <em>The Works of Archimedes</em>, ed. T. L. Heath (Dover). · Ptolemy, <em>Almagest</em>, trans. G. J. Toomer (Princeton, 1998). · Ibn al-Haytham, <em>The Optics of Ibn al-Haytham</em>, trans. A. I. Sabra (Warburg Institute, 1989). · Copernicus, <em>On the Revolutions</em>, trans. E. Rosen (Johns Hopkins, 1992). · Kepler, <em>New Astronomy</em>, trans. W. H. Donahue (Cambridge, 1992). · Galileo, <em>Dialogue Concerning the Two Chief World Systems</em>, trans. S. Drake (California, 1967); <em>Two New Sciences</em>, trans. S. Drake (Wisconsin, 1974). · Newton, <em>The Principia</em>, trans. I. B. Cohen &amp; A. Whitman (California, 1999). · Einstein, "Zur Elektrodynamik bewegter Körper," <em>Ann. Phys.</em> 17 (1905); "Die Grundlage der allgemeinen Relativitätstheorie," <em>Ann. Phys.</em> 49 (1916). Collected Papers: einsteinpapers.press.princeton.edu.</p>
+      </div>
+      <div class="sources-block">
+        <h3>Secondary Literature</h3>
+        <p>A. Pais, <em>"Subtle is the Lord…"</em> (Oxford, 1982) — indispensable for Parts IV. · R. S. Westfall, <em>Never at Rest</em> (Cambridge, 1980). · B. J. Hunt, <em>The Maxwellians</em> (Cornell, 1991). · D. Kennefick, <em>No Shadow of a Doubt</em> (Princeton, 2019). · C. M. Will, <em>Was Einstein Right?</em> (Basic Books, 1993). · For working through the physics: J. B. Hartle, <em>Gravity</em> (Addison-Wesley, 2003); or Misner, Thorne &amp; Wheeler, <em>Gravitation</em> (Freeman, 1973).</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="doc-footer">
+    <div class="footer-inner">
+      <div class="margin-col"></div>
+      <div class="text-col" style="padding-bottom:0">
+        <p class="footer-sig">Muhammad Anas</p>
+        <p class="footer-detail">Study notes, not original scholarship · Sargodha, Pakistan · 2026 · Companion: <em>From Pythagoras to Riemann's Curvature</em></p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+</body>
+</html>

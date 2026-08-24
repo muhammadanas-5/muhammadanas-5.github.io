@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From Pythagoras to Riemann's Curvature — Muhammad Anas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,300;9..144,0,400;9..144,0,500;9..144,1,300;9..144,1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},svg:{fontCache:'global'}};</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+:root {
+  --bg:        #fafaf8;
+  --bg-alt:    #f2f1ed;
+  --panel:     #ffffff;
+  --ink:       #1c1c1a;
+  --ink-2:     #3d3d38;
+  --ink-3:     #7a7a72;
+  --ink-4:     #b0afa6;
+  --orange:    #e8631a;
+  --orange-2:  #f28144;
+  --orange-pale: #fff4ee;
+  --rule:      #e4e2da;
+  --rule-2:    #d0cec4;
+  --margin-w:  160px;
+  --ff-display: "Fraunces", Georgia, serif;
+  --ff-body:    "Newsreader", Georgia, serif;
+  --ff-mono:    "JetBrains Mono", ui-monospace, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--ff-body);
+  font-size: 18px;
+  line-height: 1.72;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+.page { max-width: calc(var(--margin-w) + 680px + 48px); margin: 0 auto; padding: 0 24px; }
+
+.cover {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 100px 0 80px;
+  position: relative;
+  border-bottom: 1px solid var(--rule);
+  background:
+    radial-gradient(ellipse 70% 55% at 80% 10%, rgba(232,99,26,0.08), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 15% 85%, rgba(232,99,26,0.05), transparent 55%),
+    var(--bg);
+  overflow: hidden;
+}
+.cover::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(
+    transparent, transparent calc(1.72em - 1px),
+    rgba(0,0,0,0.042) calc(1.72em - 1px), rgba(0,0,0,0.042) 1.72em
+  );
+  background-size: 100% 1.72em;
+  background-position: 0 1.2em;
+  pointer-events: none;
+  mask-image: radial-gradient(65% 75% at 70% 40%, black 20%, transparent 78%);
+}
+.cover-inner { position: relative; z-index: 2; }
+.cover-label {
+  font-family: var(--ff-mono);
+  font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 36px;
+  display: flex; align-items: center; gap: 14px;
+}
+.cover-label::before { content: ""; width: 30px; height: 1px; background: var(--orange-2); display: block; }
+.cover h1 {
+  font-family: var(--ff-display);
+  font-weight: 300;
+  font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+  line-height: 1.06; letter-spacing: -0.02em; color: var(--ink);
+  margin-bottom: 14px; max-width: 16em;
+}
+.cover h1 em { font-style: italic; color: var(--orange); font-weight: 400; }
+.cover-sub { font-family: var(--ff-body); font-size: 1.05rem; color: var(--ink-3); margin-bottom: 48px; max-width: 36em; font-style: italic; }
+.cover-meta {
+  display: flex; flex-direction: column; gap: 6px;
+  font-family: var(--ff-mono); font-size: 12px; letter-spacing: 0.05em; color: var(--ink-4);
+  border-top: 1px solid var(--rule); padding-top: 24px; max-width: 36em;
+}
+.cover-meta strong { color: var(--ink-3); font-weight: 500; }
+
+.toc { padding: 72px 0; border-bottom: 1px solid var(--rule); }
+.toc-grid { display: grid; grid-template-columns: var(--margin-w) 1fr; gap: 0 40px; }
+.toc-label { font-family: var(--ff-mono); font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); padding-top: 4px; }
+.toc h2 { font-family: var(--ff-display); font-weight: 400; font-size: 1.6rem; letter-spacing: -0.015em; color: var(--ink); margin-bottom: 28px; }
+.toc-parts { list-style: none; }
+.toc-parts > li { padding: 14px 0; border-top: 1px solid var(--rule); }
+.toc-parts > li:last-child { border-bottom: 1px solid var(--rule); }
+.part-name { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); margin-bottom: 6px; }
+.part-chapters { font-family: var(--ff-body); font-size: 0.92rem; color: var(--ink-3); line-height: 1.55; }
+
+.body-row {
+  display: grid; grid-template-columns: var(--margin-w) 1fr; gap: 0 40px; position: relative;
+}
+.body-row::before {
+  content: ""; position: absolute; left: var(--margin-w); top: 0; bottom: 0; width: 1px;
+  background: linear-gradient(to bottom, var(--orange-2) 0%, rgba(232,99,26,0.12) 100%);
+  pointer-events: none;
+}
+.margin-col { padding-top: 6px; text-align: right; padding-right: 28px; }
+.chapter-num { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); line-height: 1; }
+.margin-note { font-family: var(--ff-mono); font-size: 10px; color: var(--ink-4); line-height: 1.4; margin-top: 8px; letter-spacing: 0.02em; }
+.text-col { padding: 0 0 72px 28px; }
+
+.part-header { padding: 80px 0 0; border-top: 1px solid var(--rule); margin-top: 32px; }
+.part-header:first-of-type { border-top: none; margin-top: 0; }
+.part-eyebrow { font-family: var(--ff-mono); font-size: 10.5px; letter-spacing: 0.26em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
+.part-title { font-family: var(--ff-display); font-weight: 300; font-size: clamp(1.6rem, 3.5vw, 2.6rem); line-height: 1.1; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid var(--rule); max-width: 22em; }
+.part-title em { font-style: italic; color: var(--orange); }
+
+.ch-heading { font-family: var(--ff-display); font-weight: 400; font-size: clamp(1.25rem,2.5vw,1.7rem); line-height: 1.14; letter-spacing: -0.015em; color: var(--ink); margin-bottom: 20px; margin-top: 48px; }
+.ch-heading:first-child { margin-top: 0; }
+.sec-heading { font-family: var(--ff-display); font-weight: 500; font-size: 1.1rem; letter-spacing: -0.01em; color: var(--ink-2); margin: 32px 0 10px; }
+
+.text-col p { color: var(--ink-2); margin-bottom: 18px; font-size: 0.97rem; }
+.text-col p:last-child { margin-bottom: 0; }
+.text-col em { color: var(--orange); font-style: normal; font-weight: 500; }
+.text-col strong { color: var(--ink); font-weight: 600; }
+
+.deriv {
+  background: var(--panel);
+  border: 1px solid var(--rule); border-left: 3px solid var(--orange);
+  border-radius: 10px; padding: 26px 28px; margin: 28px 0;
+  box-shadow: 0 2px 18px rgba(0,0,0,0.05), 0 0 0 1px rgba(232,99,26,0.04);
+}
+.deriv::before { content: "Derivation"; font-family: var(--ff-mono); font-size: 9.5px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--orange); display: block; margin-bottom: 14px; }
+.deriv p { font-size: 0.93rem !important; color: var(--ink-3) !important; margin-bottom: 14px !important; }
+.deriv p:last-child { margin-bottom: 0 !important; }
+.deriv strong { color: var(--ink-2) !important; }
+mjx-container { color: var(--ink); }
+
+.text-col ul { margin: 12px 0 18px 0; padding: 0; list-style: none; }
+.text-col ul li { padding-left: 20px; position: relative; color: var(--ink-2); font-size: 0.95rem; margin-bottom: 7px; line-height: 1.6; }
+.text-col ul li::before { content: "–"; position: absolute; left: 0; color: var(--orange); font-family: var(--ff-mono); }
+
+.appendix-note { background: var(--orange-pale); border: 1px solid rgba(232,99,26,0.18); border-radius: 8px; padding: 20px 22px; font-size: 0.88rem; color: var(--ink-2); line-height: 1.6; margin: 24px 0; }
+.appendix-note strong { color: var(--ink); }
+
+/* closing toolkit table */
+.toolkit-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 20px 0; }
+.toolkit-table th { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); text-align: left; padding: 8px 10px 8px 0; border-bottom: 1px solid var(--rule-2); }
+.toolkit-table td { padding: 9px 10px 9px 0; border-bottom: 1px solid var(--rule); color: var(--ink-2); vertical-align: top; line-height: 1.5; }
+.toolkit-table td:first-child { font-family: var(--ff-mono); font-size: 10px; color: var(--orange); width: 34%; padding-right: 16px; }
+.toolkit-table td:nth-child(2) { width: 24%; color: var(--ink-3); font-size: 0.83rem; }
+.toolkit-table tr:last-child td { border-bottom: none; }
+
+.timeline { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin: 20px 0; }
+.timeline th { font-family: var(--ff-mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); text-align: left; padding: 8px 12px 8px 0; border-bottom: 1px solid var(--rule-2); }
+.timeline td { padding: 8px 12px 8px 0; border-bottom: 1px solid var(--rule); color: var(--ink-2); vertical-align: top; line-height: 1.5; }
+.timeline td:first-child { font-family: var(--ff-mono); font-size: 11px; color: var(--orange); white-space: nowrap; padding-right: 20px; min-width: 100px; }
+.timeline tr:last-child td { border-bottom: none; }
+
+.sources-block { border-top: 1px solid var(--rule); padding-top: 28px; margin-top: 40px; }
+.sources-block h3 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px; }
+.sources-block p { font-size: 0.88rem !important; color: var(--ink-3) !important; line-height: 1.65 !important; }
+
+.section-sep { border: none; border-top: 1px solid var(--rule); margin: 64px 0 0; }
+
+.doc-footer { border-top: 1px solid var(--rule); padding: 40px 0 60px; margin-top: 24px; }
+.footer-inner { display: grid; grid-template-columns: var(--margin-w) 1fr; gap: 0 40px; }
+.footer-sig { font-family: var(--ff-display); font-size: 1rem; color: var(--ink-3); font-style: italic; }
+.footer-detail { font-family: var(--ff-mono); font-size: 11px; color: var(--ink-4); letter-spacing: 0.04em; margin-top: 6px; }
+
+@media (max-width: 680px) {
+  :root { --margin-w: 0px; }
+  .body-row { grid-template-columns: 1fr; }
+  .body-row::before { display: none; }
+  .margin-col { display: none; }
+  .text-col { padding-left: 0; }
+  .toc-grid { grid-template-columns: 1fr; }
+  .toc-label { display: none; }
+  .footer-inner { grid-template-columns: 1fr; }
+  .cover h1 { font-size: 2rem; }
+  .toolkit-table { font-size: 0.78rem; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- cover -->
+  <div class="cover">
+    <div class="cover-inner">
+      <div class="cover-label">Condensed Lecture Notes · Mathematics</div>
+      <h1>From Pythagoras to <em>Riemann's Curvature</em></h1>
+      <p class="cover-sub">The specific chain of mathematical ideas needed to understand physics from Archimedes to the Einstein field equations — with derivations.</p>
+      <div class="cover-meta">
+        <span><strong>Muhammad Anas</strong> · Sargodha, Pakistan · 2026</span>
+        <span>23 pages · study notes, not original scholarship</span>
+        <span>Companion volume: <em>From the First Sky-Watchers to General Relativity</em></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-grid">
+      <div class="toc-label">Contents</div>
+      <div class="toc-body">
+        <h2>What this covers</h2>
+        <ul class="toc-parts">
+          <li>
+            <div class="part-name">Part I — Greek Mathematics: Proof, Magnitude, and the Conics</div>
+            <div class="part-chapters">Pythagoras · Euclid's axiomatic method · Eudoxus &amp; Archimedes · Apollonius's conics · Greek trigonometry</div>
+          </li>
+          <li>
+            <div class="part-name">Part II — Algebra and the Analytic Turn</div>
+            <div class="part-chapters">India, Islam, and the Italian algebraists · Symbols, logarithms, analytic geometry</div>
+          </li>
+          <li>
+            <div class="part-name">Part III — The Calculus and Analysis</div>
+            <div class="part-chapters">Before Newton · Newton and Leibniz · Euler and the 18th century · Calculus of variations · Rigor: Cauchy and Fourier</div>
+          </li>
+          <li>
+            <div class="part-name">Part IV — The Mathematics of Fields and Frames</div>
+            <div class="part-chapters">Vector analysis: gradient, divergence, curl · Linear algebra, matrices, transformations</div>
+          </li>
+          <li>
+            <div class="part-name">Part V — Geometry Beyond Euclid (the Road to 1915)</div>
+            <div class="part-chapters">Non-Euclidean geometry · Gauss's intrinsic geometry · Riemann's manifolds · Tensor calculus: Christoffel, Ricci, Levi-Civita</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- PART I -->
+  <div class="part-header">
+    <div class="body-row">
+      <div class="margin-col"><span class="chapter-num">Part I</span></div>
+      <div class="text-col" style="padding-bottom:0">
+        <p class="part-eyebrow">Greek Mathematics: Proof, Magnitude, and the Conics</p>
+        <h2 class="part-title">The Greeks added — and it is <em>the</em> addition — proof: the demand that mathematical truths be <em>demonstrated</em> from accepted principles.</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="body-row">
+    <div class="margin-col"><span class="chapter-num">Ch. 1</span><p class="margin-note">~570–495 BCE<br>Pythagoras</p></div>
+    <div class="text-col">
+      <h2 class="ch-heading">Pythagoras: the Theorem, the Proof, and the Crisis of the Irrational</h2>
+      <p>The Babylonians knew "Pythagorean" number facts a millennium before Pythagoras. What the Greeks added — and it is the addition — is proof: the demand that mathematical truths be demonstrated from accepted principles, not verified case by case.</p>
+      <div class="deriv">
+        <p><strong>The theorem \(a^2+b^2=c^2\) (rearrangement proof).</strong> Take a square of side \(a+b\). Place four copies of the right triangle in its corners, hypotenuses inward: they enclose a tilted square of side \(c\), so \[(a+b)^2 = 4\cdot\tfrac{1}{2}ab + c^2 \implies a^2+2ab+b^2 = 2ab+c^2 \implies a^2+b^2=c^2.\] Rearranging the same four triangles to leave two squares of sides \(a\) and \(b\) gives a purely visual proof with no algebra at all.</p>
+        <p><strong>Why physics cares:</strong> this theorem is the Euclidean metric. "Distance" in flat space, \(ds^2 = dx^2+dy^2+dz^2\), is Pythagoras infinitesimally; special relativity modifies the signs (\(ds^2 = -c^2dt^2+dx^2+\cdots\)), and general relativity makes the coefficients variable (\(ds^2 = g_{\mu\nu}dx^\mu dx^\nu\)). The entire metric tradition of Part V is the biography of this one equation.</p>
+        <p><strong>Irrationality of \(\sqrt{2}\).</strong> Suppose \(\sqrt{2}=p/q\) in lowest terms. Then \(p^2=2q^2\), so \(p\) is even: \(p=2r\). Then \(q^2=2r^2\), so \(q\) is even too — contradicting "lowest terms." This is the model proof by contradiction, the logical weapon Greek mathematics bequeathed to all later science.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="body-row">
+    <div class="margin-col"><span class="chapter-num">Ch. 2–3</span><p class="margin-note">~300 BCE<br>Euclid · Archimedes</p></div>
+    <div class="text-col">
+      <h2 class="ch-heading">Euclid and Archimedes: Axioms and Proto-Integration</h2>
+      <p>Euclid's <em>Elements</em> (~300 BCE) derived ~465 propositions from 5 postulates — the template of exact knowledge that Newton used for the <em>Principia</em> and Einstein absorbed as a child. Postulate 5 (the parallel postulate) is the fuse of Part V: deny it and you get new, consistent geometries — the mathematical precondition of general relativity.</p>
+      <p>Eudoxus's method of exhaustion rigorously proved statements about curved areas by trapping regions between inscribed and circumscribed polygons — the \(\varepsilon\)-argument, twenty-two centuries before Weierstrass.</p>
+      <div class="deriv">
+        <p><strong>Archimedes' circle (\(A=\pi r^2\)).</strong> Slice the disk into \(n\) thin pie-wedges and re-stand them alternately up/down: they nearly form a rectangle of height \(r\) and base \(C/2\). Exhaustion turns "nearly" into a proof, giving \(A = \tfrac{1}{2}rC = \pi r^2\). Bounding \(\pi\) by inscribed and circumscribed 96-gons: \[3\tfrac{10}{71} < \pi < 3\tfrac{1}{7},\quad\text{i.e. }3.1408 < \pi < 3.1429\] — the first error-controlled computation in history.</p>
+        <p><strong>Quadrature of the parabola.</strong> The area between a parabola and a chord is \(\tfrac{4}{3}\) the area of the inscribed triangle of the same base and height. Fill with triangles: each stage adds \(\tfrac{1}{4}\) of the previous. Summing: \(T\!\left(1+\tfrac{1}{4}+\tfrac{1}{16}+\cdots\right) = \tfrac{4}{3}T\). In modern terms he evaluated \(\int x^2\,dx\) — 1,900 years before Newton.</p>
+      </div>
+      <p>Apollonius's <em>Conics</em> (~200 BCE) named the ellipse, parabola, and hyperbola and proved their focus-reflection properties. For 1,800 years it was a museum piece — until Kepler found planets on ellipses, Galileo found projectiles on parabolas, and Newton proved inverse-square orbits are exactly Apollonius's conics. No better advertisement exists for mathematics stockpiled ahead of need.</p>
+    </div>
+  </div>
+
+  <hr class="section-sep">
+
+  <!-- PART II -->
+  <div class="part-header">
+    <div class="body-row">
+      <div class="margin-col"><span class="chapter-num">Part II</span></div>
+      <div class="text-col" style="padding-bottom:0">
+        <p class="part-eyebrow">Algebra and the Analytic Turn</p>
+        <h2 class="part-title">A curve is an equation; an equation is a curve. <em>Space becomes addressable by numbers.</em></h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="body-row">
+    <div class="margin-col"><span class="chapter-num">Ch. 5–6</span><p class="margin-note">~820–1637<br>Algebra · analytic geometry</p></div>
+    <div class="text-col">
+      <h2 class="ch-heading">Algebra, Logarithms, and Analytic Geometry</h2>
+      <p>Al-Khwārizmī (~820 CE) wrote the first systematic treatise on solving equations, classifying quadratics and solving each type by completing the square. The cubic (Cardano, 1545) forced the acceptance of complex numbers: the formula for three real roots demands \(\sqrt{-1}\) en route, and Bombelli showed that calculating boldly makes the imaginary parts cancel. Complex numbers entered mathematics not by choice but by necessity.</p>
+      <div class="deriv">
+        <p><strong>Completing the square = the quadratic formula.</strong> For \(x^2+bx=c\), add the corner \((b/2)^2\): \[(x+\tfrac{b}{2})^2 = c+\tfrac{b^2}{4} \implies x = -\tfrac{b}{2}+\sqrt{c+\tfrac{b^2}{4}},\] which for the general \(ax^2+bx+c=0\) is \(x = \frac{-b\pm\sqrt{b^2-4ac}}{2a}\).</p>
+      </div>
+      <p>Descartes and Fermat (1637): a curve is an equation; an equation is a curve. Coordinates translate geometric problems into algebra and back. Apollonius's conics become simple quadratic equations; space itself becomes addressable by numbers — the precondition for "the state of a system as a point in phase space" (Hamilton) and for coordinates on curved manifolds (Riemann), where GR insists the physics must not depend on the addressing scheme.</p>
+      <p>Logarithms (Napier 1614): \(\log(xy) = \log x + \log y\) — multiplication collapses into addition. Kepler was among the first heavy users. The hidden treasure: the natural logarithm's link to \(e\), and to the area under \(y=1/x\).</p>
+    </div>
+  </div>
+
+  <hr class="section-sep">
+
+  <!-- PART III -->
+  <div class="part-header">
+    <div class="body-row">
+      <div class="margin-col"><span class="chapter-num">Part III</span></div>
+      <div class="text-col" style="padding-bottom:0">
+        <p class="part-eyebrow">The Calculus and Analysis</p>
+        <h2 class="part-title">One glance at a sliver, and Archimedes' case-by-case exhaustions become <em>a mechanical calculus.</em></h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="body-row">
+    <div class="margin-col"><span class="chapter-num">Ch. 8</span><p class="margin-note">1665–1686<br>Newton · Leibniz</p></div>
+    <div class="text-col">
+      <h2 class="ch-heading">Newton and Leibniz: The Calculus</h2>
+      <p>Newton (1665–66, plague years): variables are "fluents" flowing in time; their rates are fluxions. Master tool: infinite series — the binomial theorem extended to arbitrary exponents, turning every curve into a power series that could be differentiated and integrated term by term.</p>
+      <p>Leibniz (published 1684/86): differentials \(dx\), \(dy\); the integral sign \(\int\); \(dy/dx\) behaving like a genuine ratio, making the chain rule almost automatic. His notation won — it powers the analytical mechanics of Lagrange.</p>
+      <div class="deriv">
+        <p><strong>The derivative, 17th-century style.</strong> For \(y=x^2\): \(y+dy = (x+dx)^2 = x^2+2x\,dx+(dx)^2\), giving \(dy=2x\,dx\) after discarding the "infinitely smaller" \((dx)^2\). In general: \(\frac{d}{dx}x^n = nx^{n-1}\) (binomial theorem, keep the linear term).</p>
+        <p><strong>The Fundamental Theorem.</strong> Let \(A(x)\) be the area under \(y=f(t)\) from \(a\) to \(x\). Increase \(x\) by a sliver \(dx\): the added area is a near-rectangle of height \(f(x)\) and width \(dx\), so \[\frac{dA}{dx} = f(x) \implies \int_a^b f(x)\,dx = F(b)-F(a)\] where \(F'=f\). One glance at a sliver, and Archimedes' case-by-case exhaustions become a mechanical calculus. All of mathematical physics — "the distance is the integral of the velocity," "the field is the derivative of the potential" — is applications of this theorem.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="body-row">
+    <div class="margin-col"><span class="chapter-num">Ch. 9</span><p class="margin-note">1707–1783<br>Euler</p></div>
+    <div class="text-col">
+      <h2 class="ch-heading">The 18th Century: Euler, Series, Differential Equations</h2>
+      <p>Euler (1707–1783) organized calculus into the shape we still teach and made the function the central object of mathematics. Notation we owe him: \(f(x)\), \(e\), \(i\), \(\pi\) (popularized), \(\Sigma\), sin, cos as functions rather than table entries.</p>
+      <div class="deriv">
+        <p><strong>Taylor series.</strong> Assume \(f(x) = a_0+a_1x+a_2x^2+\cdots\) near 0 and differentiate repeatedly: \[f(x) = \sum_{k=0}^\infty \frac{f^{(k)}(0)}{k!}\,x^k.\] Physics' universal approximation device: every smooth law is linear at first order and quadratic at second — which is why small oscillations are harmonic, why \(\gamma \approx 1+\tfrac{1}{2}v^2/c^2\) gives Newton back from Einstein, and why "weak-field limits" exist at all.</p>
+        <p><strong>Euler's formula.</strong> Apply Taylor to \(e^{i\theta}\) and sort real from imaginary parts: \[e^{i\theta} = \underbrace{1-\frac{\theta^2}{2!}+\frac{\theta^4}{4!}-\cdots}_{\cos\theta} + i\,\underbrace{\left(\theta-\frac{\theta^3}{3!}+\cdots\right)}_{\sin\theta} = \cos\theta+i\sin\theta.\] Rotation, oscillation, and exponential growth are one phenomenon. Waves become \(e^{i(kx-\omega t)}\); interference becomes addition of complex phases; linear ODEs reduce to algebra on exponents.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="body-row">
+    <div class="margin-col"><span class="chapter-num">Ch. 10</span><p class="margin-note">1696–1788<br>Calculus of variations</p></div>
+    <div class="text-col">
+      <h2 class="ch-heading">The Calculus of Variations</h2>
+      <p>The brachistochrone (1696): down which curve does a bead slide between two points in least time? Answer: the cycloid — the same curve Huygens found isochronous. A mechanics problem solved by optics: the first hint that minimum principles unify physics.</p>
+      <p>Euler and Lagrange: to make \(J[y] = \int F(x,y,y')\,dx\) stationary, \(y\) must satisfy the Euler–Lagrange equation \(\frac{d}{dx}\frac{\partial F}{\partial y'}-\frac{\partial F}{\partial y}=0\). When physicists say a theory is "defined by its Lagrangian," they are speaking 18th-century mathematics.</p>
+      <div class="deriv">
+        <p><strong>Geodesics as a variational problem — the bridge to tensors.</strong> On any space with line element \(ds\), the shortest path makes \(\int ds\) stationary. Applying Euler–Lagrange to \(F = \sqrt{g_{ij}\dot x^i\dot x^j}\) and choosing arc length as parameter gives: \[\ddot x^k + \Gamma^k_{ij}\dot x^i\dot x^j = 0,\] with the \(\Gamma\)'s built from derivatives of \(g_{ij}\). In flat space with Cartesian coordinates all \(\Gamma=0\): straight lines. The same equation with the metric of spacetime is <em>free fall in general relativity</em> — "particles follow geodesics" is the brachistochrone tradition arriving at its destination.</p>
+      </div>
+      <p>Hilbert derives the Einstein field equations in November 1915 by varying the action \(\int R\sqrt{-g}\,d^4x\). Noether's 1918 theorem (born from GR's energy puzzles) shows every continuous symmetry of an action yields a conservation law.</p>
+    </div>
+  </div>
+
+  <div class="body-row">
+    <div class="margin-col"><span class="chapter-num">Ch. 11</span><p class="margin-note">1807–1872<br>Fourier · Cauchy · Weierstrass</p></div>
+    <div class="text-col">
+      <h2 class="ch-heading">Rigor: Cauchy, Fourier, and the Arithmetization of Analysis</h2>
+      <p>Fourier (1807/1822) claimed any function — even one drawn freehand with corners and jumps — equals a trigonometric series. The coefficients follow from orthogonality:</p>
+      <div class="deriv">
+        <p><strong>Fourier coefficients.</strong> Seek \(f(x) = \frac{a_0}{2}+\sum_{n\geq 1}(a_n\cos nx+b_n\sin nx)\). Multiply by \(\cos nx\) and integrate: every term but one dies (orthogonality), giving \[a_n = \frac{1}{\pi}\int_{-\pi}^\pi f(x)\cos nx\,dx.\] "Projecting a function onto basis vectors": the germ of infinite-dimensional function spaces. Physics payoff: heat conduction and wave problems split into independently evolving modes; the blackbody problem that ends the classical era is precisely mode-counting à la Fourier.</p>
+      </div>
+      <p>Cauchy (1821) redefined the basics via limits: the derivative as \(\lim_{h\to 0}[f(x+h)-f(x)]/h\); the definite integral as a limit of sums. Weierstrass (1850s–70s) made the limit precise with the \(\varepsilon\)–\(\delta\) definition. Dedekind and Cantor (1872) finally constructed the real numbers, closing the circle opened by Hippasus's \(\sqrt{2}\) — magnitudes and numbers reunited after 2,300 years.</p>
+    </div>
+  </div>
+
+  <hr class="section-sep">
+
+  <!-- PART IV -->
+  <div class="part-header">
+    <div class="body-row">
+      <div class="margin-col"><span class="chapter-num">Part IV</span></div>
+      <div class="text-col" style="padding-bottom:0">
+        <p class="part-eyebrow">The Mathematics of Fields and Frames</p>
+        <h2 class="part-title">Physics after 1905 is <em>invariant theory</em> with experimental consequences.</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="body-row">
+    <div class="margin-col"><span class="chapter-num">Ch. 12–13</span><p class="margin-note">1820s–1872<br>Vectors · matrices</p></div>
+    <div class="text-col">
+      <h2 class="ch-heading">Vector Analysis and Linear Algebra</h2>
+      <p>Gibbs and Heaviside (1880s–90s) stripped Hamilton's quaternions to the working essentials — the vector \(\mathbf{A}\) with dot and cross products — creating the notation in which Maxwell's equations are four, not twenty.</p>
+      <div class="deriv">
+        <p><strong>Divergence and the divergence theorem.</strong> Take an infinitesimal box, sides \(dx,dy,dz\). Net outflow through the two \(x\)-faces: \(\frac{\partial F_x}{\partial x}dV\). Sum the three directions: outflow \(= (\nabla\cdot\mathbf{F})\,dV\). Tile any region: internal faces cancel in pairs, leaving only the boundary: \[\oint_{\partial V}\mathbf{F}\cdot d\mathbf{A} = \int_V \nabla\cdot\mathbf{F}\,dV.\] This is the dictionary between the integral laws experimentalists measure (flux through a surface) and the differential laws theorists solve (Maxwell's equations): the two forms are related by exactly this theorem.</p>
+      </div>
+      <p>Cayley (1858) defined matrix algebra. The eigenvalue problem — find \(\mathbf{v}\) with \(A\mathbf{v}=\lambda\mathbf{v}\) — arose inside physics for principal axes of rotating rigid bodies. Sylvester's law of inertia (1852): the counts of \(+\) and \(-\) diagonal entries are invariant — the <em>signature</em>. This will label the difference between Euclidean space \((+++)\) and Minkowski spacetime \((-+++)\).</p>
+      <p>Klein's Erlangen Program (1872): a geometry is the study of invariants of a transformation group. Special relativity is the geometry of the Lorentz group; general covariance extends the group to all smooth coordinate changes. Physics after 1905 is invariant theory with experimental consequences.</p>
+    </div>
+  </div>
+
+  <hr class="section-sep">
+
+  <!-- PART V -->
+  <div class="part-header">
+    <div class="body-row">
+      <div class="margin-col"><span class="chapter-num">Part V</span></div>
+      <div class="text-col" style="padding-bottom:0">
+        <p class="part-eyebrow">Geometry Beyond Euclid — the Road to 1915</p>
+        <h2 class="part-title">"Curved space" needs <em>no higher-dimensional space to curve into.</em> Whatever geometry spacetime has can be defined and measured from inside.</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="body-row">
+    <div class="margin-col"><span class="chapter-num">Ch. 14</span><p class="margin-note">1733–1868<br>Non-Euclidean geometry</p></div>
+    <div class="text-col">
+      <h2 class="ch-heading">The Parallel Postulate and Non-Euclidean Geometry</h2>
+      <p>Two thousand years of attempts to prove Postulate 5 from the rest end by discovering it is optional. Gauss (privately, from ~1810s), Bolyai ("out of nothing I have created a strange new universe," 1832), and Lobachevsky (1829) independently developed hyperbolic geometry: through a point off a line pass infinitely many non-meeting lines; triangle angles sum to less than 180°, the deficit proportional to area.</p>
+      <div class="deriv">
+        <p><strong>Angle excess on the sphere.</strong> Take the triangle with a vertex at the north pole and two vertices on the equator, a quarter-circumference apart: all three angles are right angles — sum 270°, excess 90°. Its area is \(\tfrac{1}{8}\cdot 4\pi R^2 = \tfrac{\pi R^2}{2}\). This instantiates Girard's theorem: \[\text{Excess} = (\alpha+\beta+\gamma)-\pi = \frac{\text{Area}}{R^2}.\] Angle excess per unit area = \(1/R^2\): an intrinsic meter of curvature, measurable by surveying alone with no view from outside. Hyperbolic geometry is the mirror case: deficit instead of excess, \(1/R^2\) negative.</p>
+      </div>
+      <p>Beltrami (1868) proved hyperbolic geometry is as consistent as Euclidean geometry — modeled faithfully inside it. The parallel postulate is independent: a choice, to be settled (if at all) by physics.</p>
+    </div>
+  </div>
+
+  <div class="body-row">
+    <div class="margin-col"><span class="chapter-num">Ch. 15</span><p class="margin-note">1827<br>Gauss</p></div>
+    <div class="text-col">
+      <h2 class="ch-heading">Gauss: the Intrinsic Geometry of Surfaces</h2>
+      <p>Gauss (1827) asked: which geometric properties of a surface are intrinsic — available to an ant that cannot look at the embedding space? A surface carries a metric \(ds^2 = E\,du^2+2F\,du\,dv+G\,dv^2\) — a position-dependent Pythagoras. Everything intrinsic flows from it: lengths, angles, areas, and geodesics.</p>
+      <p><strong>Theorema Egregium:</strong> the curvature \(K\) is expressible entirely in terms of \(E,F,G\) and their derivatives. Curvature is intrinsic.</p>
+      <div class="deriv">
+        <p><strong>The ant can measure curvature.</strong> Three intrinsic fingerprints of \(K\): (1) a geodesic circle of small radius \(r\) has circumference \(C(r) = 2\pi r(1-\tfrac{K}{6}r^2+\cdots)\) — measure \(C\) and \(r\), extract \(K\) from the shortfall; (2) triangle angle excess \(= \int K\,dA\); (3) \(K\equiv 0\) if and only if the surface can be mapped flat without distortion — which is why no flat chart of the Earth can preserve all distances. Without the Theorema Egregium, general relativity would be metaphysics.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="body-row">
+    <div class="margin-col"><span class="chapter-num">Ch. 16</span><p class="margin-note">10 June 1854<br>Riemann's lecture</p></div>
+    <div class="text-col">
+      <h2 class="ch-heading">Riemann: Manifolds, Metric, Curvature</h2>
+      <p>For his Göttingen habilitation — the topic chosen by Gauss, the one Riemann least expected — Bernhard Riemann (1826–1866) re-founded geometry in one hour with almost no formulas.</p>
+      <ul>
+        <li><strong>Manifolds:</strong> the primitive notion is an \(n\)-dimensional continuum of points labeled by \(n\) coordinates — with no geometry presupposed.</li>
+        <li><strong>Metric:</strong> geometry enters as an additional structure, a rule for infinitesimal length: \(ds^2 = \sum_{i,j}g_{ij}(x)\,dx^i dx^j\), generalizing Gauss's surface form to \(n\) dimensions.</li>
+        <li><strong>Curvature:</strong> to each point and each 2-plane direction through it, a number (the sectional curvature) generalizing Gauss's \(K\).</li>
+        <li><strong>The empirical coda:</strong> "the ground of the metric relations must be sought outside [the manifold], in binding forces acting upon it." Geometry, Riemann suggests, may be physics. He tried himself; the tools and the physics of his day were not ready. Sixty-one years later, Einstein completed the thought.</li>
+      </ul>
+      <div class="deriv">
+        <p><strong>Curvature as holonomy.</strong> Transport a vector around a closed loop; in flat space it returns unchanged. On a sphere, transport along the triangle of Ch. 14 (equator → 90° of longitude → back over the pole): the vector returns rotated by 90° — exactly the triangle's angle excess, i.e. \(\int K\,dA\) over the enclosed region. The rotation-per-loop-area is the curvature, and no external view was used. This "failure to come back the same" is what the Riemann tensor measures, and its physical name is <em>tidal field</em>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="body-row">
+    <div class="margin-col"><span class="chapter-num">Ch. 17</span><p class="margin-note">1869–1915<br>Tensor calculus</p></div>
+    <div class="text-col">
+      <h2 class="ch-heading">Tensor Calculus: Christoffel, Ricci, Levi-Civita</h2>
+      <p>On a curved manifold there are no preferred coordinates. The ordinary derivative of a vector field is not coordinate-independent: in polar coordinates, a constant vector field has nonzero component-derivatives because the basis vectors themselves turn. Needed: a derivative that subtracts the basis's own variation.</p>
+      <div class="deriv">
+        <p><strong>Where the Christoffel symbols come from.</strong> Demand two properties of parallel transport: (i) it preserves lengths and angles — the metric is covariantly constant, \(\nabla_k g_{ij}=0\); (ii) no torsion: \(\Gamma^k_{ij}=\Gamma^k_{ji}\). Write condition (i) three times with indices cycled, add two, subtract the third: the symmetry makes terms cancel pairwise, isolating: \[\Gamma^k_{ij} = \tfrac{1}{2}g^{kl}(\partial_i g_{lj}+\partial_j g_{li}-\partial_l g_{ij}).\] These are the unique connection determined by the metric. Physically: once you know how to measure distances, you know how free particles move — one structure, not two. This is why, in GR, the metric alone is the gravitational field.</p>
+        <p><strong>Curvature = commutator of covariant derivatives.</strong> \[[\nabla_i,\nabla_j]V^k = R^k{}_{lij}V^l, \quad R^k{}_{lij} = \partial_i\Gamma^k_{jl}-\partial_j\Gamma^k_{il}+\Gamma^k_{im}\Gamma^m_{jl}-\Gamma^k_{jm}\Gamma^m_{il}.\] Flat \(\Leftrightarrow R^k{}_{lij}=0\). The Bianchi identities \(\nabla_{[m}R^k{}_{|l|ij]}=0\) imply \[\nabla^\mu\!\left(R_{\mu\nu}-\tfrac{1}{2}Rg_{\mu\nu}\right)=0,\] which is why exactly this combination — the Einstein tensor — can equal the conserved \(T_{\mu\nu}\).</p>
+        <p><strong>Geodesic deviation = tidal force.</strong> Two nearby free-fallers accelerate relative to each other at a rate given by the Riemann tensor: \[\frac{D^2\xi^\mu}{D\tau^2} = -R^\mu{}_{\nu\alpha\beta}\,u^\nu\xi^\alpha u^\beta.\] Matching to Newton's tidal tensor \(\ddot\xi^i = -\partial^i\partial_j\phi\,\xi^j\) identifies \(R^i{}_{0j0} \leftrightarrow \partial^i\partial_j\phi/c^2\): Riemann curvature is the relativistic tidal field.</p>
+      </div>
+      <p>Ricci and Levi-Civita published the summa of this "absolute differential calculus" in <em>Mathematische Annalen</em> (1900) — met with indifference. It was exactly the instrument Einstein needed: in 1912 Grossmann put the 1900 memoir in Einstein's hands. The 1915 field equations are written in Ricci's calculus, about Riemann's geometry, selected by Bianchi's identities, solved along Christoffel's geodesics.</p>
+    </div>
+  </div>
+
+  <!-- Toolkit table -->
+  <div class="body-row">
+    <div class="margin-col"><span class="chapter-num">Closing</span><p class="margin-note">The 1915 toolkit<br>and its origins</p></div>
+    <div class="text-col">
+      <h2 class="ch-heading">Where Every Piece of the Field Equations Came From</h2>
+      <table class="toolkit-table">
+        <tr><th>Tool in \(G_{\mu\nu} = \frac{8\pi G}{c^4}T_{\mu\nu}\)</th><th>Chapter</th><th>Origin</th></tr>
+        <tr><td>\(ds^2 = g_{\mu\nu}dx^\mu dx^\nu\) (metric)</td><td>1, 15, 16</td><td>Pythagoras → Gauss 1827 → Riemann 1854</td></tr>
+        <tr><td>Coordinates &amp; covariance of form</td><td>6, 13, 17</td><td>Descartes/Fermat 1637 → Klein 1872 → Ricci 1900</td></tr>
+        <tr><td>Derivatives, PDEs, \(\nabla^2\)</td><td>8, 9, 12</td><td>Newton/Leibniz → Euler/d'Alembert/Laplace</td></tr>
+        <tr><td>Variational principle (\(\delta\!\int R\sqrt{-g}\))</td><td>10</td><td>Fermat 1662 → Bernoulli 1696 → Euler/Lagrange → Hilbert 1915</td></tr>
+        <tr><td>\(\Gamma^k_{ij}\), geodesics</td><td>10, 17</td><td>Christoffel 1869</td></tr>
+        <tr><td>\(R^k{}_{lij}\), \(R_{\mu\nu}\), \(R\)</td><td>16, 17</td><td>Riemann 1854/61 → Ricci 1880s–1900</td></tr>
+        <tr><td>Bianchi identities \(\Rightarrow\) \(\nabla^\mu G_{\mu\nu}=0\)</td><td>17</td><td>Ricci/Bianchi ~1902</td></tr>
+        <tr><td>\(\sqrt{-g}\,d^4x\) (invariant volume)</td><td>13</td><td>Determinants: Cauchy 1812, Jacobi 1841</td></tr>
+        <tr><td>Signature \((-,+,+,+)\)</td><td>13, 14</td><td>Sylvester 1852; hyperbolic trig: Lambert/Lobachevsky</td></tr>
+        <tr><td>Least squares (testing it in 1919)</td><td>15</td><td>Legendre 1805 / Gauss 1809</td></tr>
+      </table>
+      <div class="appendix-note">
+        In 1918 the traffic reversed: GR's energy puzzles prompted Noether's theorem — mathematics and physics feeding each other, as they had since a triangle's sides first obeyed \(a^2+b^2=c^2\).
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="body-row">
+    <div class="margin-col"><span class="chapter-num">App. A</span><p class="margin-note">Master timeline</p></div>
+    <div class="text-col">
+      <h2 class="ch-heading">Master Timeline (selected)</h2>
+      <table class="timeline">
+        <tr><th>Date</th><th>Event</th></tr>
+        <tr><td>~1800 BCE</td><td>Babylonian \(\sqrt{2}\); Pythagorean triples (Plimpton 322)</td></tr>
+        <tr><td>~570 BCE</td><td>Pythagoras; proof culture</td></tr>
+        <tr><td>~430 BCE</td><td>Incommensurability of \(\sqrt{2}\)</td></tr>
+        <tr><td>~370 BCE</td><td>Eudoxus: proportion, exhaustion</td></tr>
+        <tr><td>~300 BCE</td><td>Euclid, Elements (Postulate 5)</td></tr>
+        <tr><td>~250–212 BCE</td><td>Archimedes: \(\pi\) bounds, parabola quadrature</td></tr>
+        <tr><td>~200 BCE</td><td>Apollonius, Conics</td></tr>
+        <tr><td>~820</td><td>al-Khwārizmī: algebra</td></tr>
+        <tr><td>1545</td><td>Cardano: cubic; complex numbers looming</td></tr>
+        <tr><td>1614</td><td>Napier: logarithms</td></tr>
+        <tr><td>1637</td><td>Descartes &amp; Fermat: analytic geometry</td></tr>
+        <tr><td>1665–76</td><td>Newton &amp; Leibniz: the calculus</td></tr>
+        <tr><td>1744–55</td><td>Euler &amp; Lagrange: calculus of variations</td></tr>
+        <tr><td>1748</td><td>Euler, Introductio; \(e^{i\theta} = \cos\theta+i\sin\theta\)</td></tr>
+        <tr><td>1821–23</td><td>Cauchy: limits, rigorous calculus</td></tr>
+        <tr><td>1822</td><td>Fourier, Théorie analytique de la chaleur</td></tr>
+        <tr><td>1827</td><td>Gauss: Theorema Egregium</td></tr>
+        <tr><td>1829–32</td><td>Lobachevsky &amp; Bolyai: non-Euclidean geometry</td></tr>
+        <tr><td>1854</td><td>Riemann's habilitation lecture (published 1868)</td></tr>
+        <tr><td>1869</td><td>Christoffel symbols</td></tr>
+        <tr><td>1872</td><td>Klein's Erlangen Program; Weierstrass rigor; Dedekind reals</td></tr>
+        <tr><td>1900</td><td>Ricci &amp; Levi-Civita: absolute differential calculus</td></tr>
+        <tr><td>1908</td><td>Minkowski: spacetime geometry</td></tr>
+        <tr><td>1912</td><td>Grossmann brings tensor calculus to Einstein</td></tr>
+        <tr><td>Nov 1915</td><td>Einstein field equations; Hilbert's variational derivation</td></tr>
+        <tr><td>1917–18</td><td>Levi-Civita: parallel transport; Noether's theorem</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Sources -->
+  <div class="body-row">
+    <div class="margin-col"><span class="chapter-num">App. B</span><p class="margin-note">Further reading</p></div>
+    <div class="text-col">
+      <h2 class="ch-heading">Further Reading and Primary Sources</h2>
+      <div class="sources-block">
+        <h3>Primary Sources</h3>
+        <p>Euclid, <em>The Thirteen Books of the Elements</em>, trans. T. L. Heath (Dover). · Archimedes, <em>The Works of Archimedes</em>, ed. T. L. Heath (Dover). · Apollonius, <em>Conics</em>, trans. R. C. Taliaferro (Green Lion Press). · al-Khwārizmī, <em>The Algebra of Mohammed ben Musa</em>, trans. F. Rosen. · Descartes, <em>The Geometry of René Descartes</em>, trans. Smith &amp; Latham (Dover). · Fourier, <em>The Analytical Theory of Heat</em>, trans. A. Freeman (Dover). · Gauss, <em>General Investigations of Curved Surfaces</em> (1827), trans. Morehead &amp; Hiltebeitel (Dover). · Riemann, "On the Hypotheses Which Lie at the Bases of Geometry" (1854/68), trans. W. K. Clifford, <em>Nature</em> 8 (1873); annotated ed.: J. Jost (Birkhäuser 2016). · Ricci, G. &amp; Levi-Civita, T., "Méthodes de calcul différentiel absolu," <em>Math. Ann.</em> 54 (1900) 125–201. · Hilbert, D., "Die Grundlagen der Physik (Erste Mitteilung)," <em>Nachr. Ges. Wiss. Göttingen</em> (1915). · Noether, E., "Invariante Variationsprobleme," <em>Nachr. Ges. Wiss. Göttingen</em> (1918).</p>
+      </div>
+      <div class="sources-block">
+        <h3>Secondary Literature</h3>
+        <p>M. Kline, <em>Mathematical Thought from Ancient to Modern Times</em> (Oxford, 1972) — the fullest single narrative. · V. J. Katz, <em>A History of Mathematics</em>, 3rd ed. (Addison-Wesley, 2009). · C. B. Boyer, <em>The History of the Calculus</em> (Dover). · J. Gray, <em>Ideas of Space</em>, 2nd ed. (Oxford, 1989). · M. Spivak, <em>A Comprehensive Introduction to Differential Geometry</em>, vol. 2 (Publish or Perish) — contains annotated translations of both Gauss 1827 and Riemann 1854: the ideal bridge from history to working technique. · For working through the modern technique: B. Schutz, <em>A First Course in General Relativity</em>, 2nd ed. (Cambridge, 2009).</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="doc-footer">
+    <div class="footer-inner">
+      <div class="margin-col"></div>
+      <div class="text-col" style="padding-bottom:0">
+        <p class="footer-sig">Muhammad Anas</p>
+        <p class="footer-detail">Study notes, not original scholarship · Sargodha, Pakistan · 2026 · Companion: <em>From the First Sky-Watchers to General Relativity</em></p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+</body>
+</html>
